@@ -9,14 +9,14 @@ const logout = () => async (dispatch) => {};
 const loginWithGoogle = (token) => async (dispatch) => {};
 
 const registerUser =
-  ({ email, name, password }, navigate) =>
-  // ({ email, name, password }) =>
+  // ({ email, name, password }, navigate) =>
+  (formData, navigate) =>
 async (dispatch) => {
   try
   {
     dispatch({type:types.REGISTER_USER_REQUEST});
 
-    const response = await api.post("/user", {email, name, password}); 
+    const response = await api.post("/user", {email: formData.email, name: formData.name, password: formData.password}); 
     if(response.status !== 200)
       throw new Error(response.error);
 
@@ -26,6 +26,7 @@ async (dispatch) => {
 
   }catch(err)
   {
+    dispatch(commonUiActions.showToastMessage("이미 가입 되어 있는 회원 이메일입니다.", "error"));
     dispatch({type: types.REGISTER_USER_FAIL, payload: err.error});
   }
 };

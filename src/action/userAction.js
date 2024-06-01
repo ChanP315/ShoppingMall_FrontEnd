@@ -13,6 +13,7 @@ const loginWithEmail = ({email, password}) => async (dispatch) => {
         throw new Error(response.error);
 
     sessionStorage.setItem("token", response.data.token);
+    console.log(response.data);
     dispatch({type: types.LOGIN_SUCCESS, payload: response.data});
   }catch(err)
   {
@@ -35,12 +36,14 @@ async (dispatch) => {
     if(response.status !== 200)
       throw new Error(response.error);
 
+    console.log(response.data);
     dispatch({type: types.REGISTER_USER_SUCCESS});
     dispatch(commonUiActions.showToastMessage("회원가입을 완료 했습니다!", "success"));
     navigate("/login");
 
   }catch(err)
   {
+    console.log(err);
     dispatch(commonUiActions.showToastMessage("이미 가입 되어 있는 회원 이메일입니다.", "error"));
     dispatch({type: types.REGISTER_USER_FAIL, payload: err.error});
   }

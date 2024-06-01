@@ -10,7 +10,7 @@ const ProductCard = () => {
   return (
     <div className="card" onClick={() => showProduct("hard_code")}>
       <img
-        src="https://lp2.hm.com/hmgoepprod?set=quality%5B79%5D%2Csource%5B%2F3a%2F04%2F3a04ededbfa6a7b535e0ffa30474853fc95d2e81.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BLOOKBOOK%5D%2Cres%5Bm%5D%2Chmver%5B1%5D&call=url[file:/product/fullscreen]"
+        src="https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcR7Y-PpT3y2cDeX8n3MO8ZES6qbL_MUtixaXnc4BJB02BziddOiuKok9MFs0wFkzLNoLBeqDe4DUsI-rlmQdVbNg8ece8x4KJ1VKJ5j-iMS73SbP3eqAFE2yA&usqp=CAc"
         alt=""
       />
       <div>리넨셔츠</div>

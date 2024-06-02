@@ -48,7 +48,8 @@ const ProductTable = ({ header, data, deleteItem, openEditForm }) => {
               </tr>
             ))
           ) : (
-            <tr>No Data to show</tr>
+            // <tr>No Data to show</tr>  -- <td> 태크 없이 <tr> 태크에 바로 텍스트를 넣으면 에러남.
+            <tr><td>No Data to show</td></tr>
           )}
         </tbody>
       </Table>

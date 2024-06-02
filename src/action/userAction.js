@@ -11,7 +11,7 @@ const loginWithToken = () => async (dispatch) => {
     if(response.status !== 200)
       throw new Error(response.error);
 
-    console.log("response", response);
+    console.log("Login response", response);
     dispatch({type: types.LOGIN_WITH_TOKEN_SUCCESS, payload: response.data});
   }catch(err)
   {

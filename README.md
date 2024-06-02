@@ -6,3 +6,4 @@
 
 
 react-toastify : ToastMessage - 회원가입할떄 사용함.
+https://cloudinary.com/ : 이미지 및 비디오 업로드를 도와주는 사이트.

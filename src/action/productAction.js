@@ -8,12 +8,13 @@ const getProductList = (query) => async (dispatch) => {
   {
     dispatch({type: types.PRODUCT_GET_REQUEST});
 
-    const response = await api.get("/product");
+    const response = await api.get("/product", {params: {...query}});
+    console.log("response: ", response);
     if(response.status !== 200)
         throw new Error(response.error);
     
-    dispatch({type: types.PRODUCT_GET_SUCCESS, payload: response.data.products});
-    console.log("response.data.products", response.data.products);
+    dispatch({type: types.PRODUCT_GET_SUCCESS, payload: response.data});//.productList});
+    // console.log("response.data.products", response.data.productList);
   }catch(err)
   {
     dispatch({type: types.PRODUCT_GET_FAIL, payload: err.error});

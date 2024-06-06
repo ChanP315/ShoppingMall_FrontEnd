@@ -35,6 +35,7 @@ const AdminProduct = () => {
 
   //상품리스트 가져오기 (url쿼리 맞춰서)
   useEffect(()=> {
+    console.log("query", query);
     dispatch(productActions.getProductList({...searchQuery}));
   },[query])
 
@@ -45,8 +46,8 @@ const AdminProduct = () => {
       delete searchQuery.name
     }
     const params = new URLSearchParams(searchQuery);
-    const query = params.toString();
-    navigate("?" + query);
+    const _query = params.toString();
+    navigate("?" + _query);
   }, [searchQuery]);
 
   const deleteItem = (id) => {
@@ -118,6 +119,7 @@ const AdminProduct = () => {
         mode={mode}
         showDialog={showDialog}
         setShowDialog={setShowDialog}
+        setQuery={setQuery}
       />
     </div>
   );

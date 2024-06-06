@@ -18,7 +18,8 @@ const SearchBox = ({ searchQuery, setSearchQuery, placeholder, field }) => {
       <input
         type="text"
         placeholder={placeholder}
-        onKeyPress={onCheckEnter}
+        // onKeyPress={onCheckEnter}
+        onKeyDown={onCheckEnter}
         onChange={(event) => setKeyword(event.target.value)}
         value={keyword}
       />

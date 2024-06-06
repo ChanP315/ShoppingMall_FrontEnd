@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import CloudinaryUploadWidget from "../utils/CloudinaryUploadWidget";
 import { productActions } from "../action/productAction";
 import { CATEGORY, STATUS, SIZE } from "../constants/product.constants";
+import { useNavigate } from "react-router-dom";
 import "../style/adminProduct.style.css";
 import * as types from "../constants/product.constants";
 import { commonUiActions } from "../action/commonUiAction";
@@ -18,7 +19,8 @@ const InitialFormData = {
   status: "active",
   price: 0,
 };
-const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
+const NewItemDialog = ({ mode, showDialog, setShowDialog, setQuery }) => {
+  const navigate = useNavigate();
   const selectedProduct = useSelector((state) => state.product.selectedProduct);
   const { error } = useSelector((state) => state.product);
   const [formData, setFormData] = useState(
@@ -26,11 +28,15 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
   );
   const [stock, setStock] = useState([]);
   const dispatch = useDispatch();
+
   const [stockError, setStockError] = useState(false);
 
   const handleClose = () => {
     // 모든걸 초기화시키고;
+    setFormData({...InitialFormData});
+    setStock([]);
     // 다이얼로그 닫아주기
+    setShowDialog(false);
   };
 
   const handleSubmit = (event) => {

@@ -50,7 +50,8 @@ const Navbar = ({ user }) => {
               <input
                 type="text"
                 placeholder="제품검색"
-                onKeyPress={onCheckEnter}
+                // onKeyPress={onCheckEnter}
+                onKeyDown={onCheckEnter}
               />
             </div>
             <button
@@ -141,7 +142,8 @@ const Navbar = ({ user }) => {
             <input
               type="text"
               placeholder="제품검색"
-              onKeyPress={onCheckEnter}
+              // onKeyPress={onCheckEnter}
+              onKeyDown={onCheckEnter}
             />
           </div>
         )}

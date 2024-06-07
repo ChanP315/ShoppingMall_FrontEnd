@@ -12,7 +12,6 @@ const ProductAll = () => {
   const {productList, totalPageNum} = useSelector((state)=> state.product);
 
   let [query, setQuery] = useSearchParams();
-  console.log(query.get('name'));
   // 처음 로딩하면 상품리스트 불러오기
   useEffect(()=> {
     dispatch(productActions.getProductList({name:query.get('name')})); // URI에  ?name={value}가  없으면 null 값 
@@ -29,7 +28,10 @@ const ProductAll = () => {
                   <ProductCard item={item}/>
                 </Col>
               ))
-            ) : (<tr><td>No Data to show</td></tr>) // <tr>No Data to show</tr>  -- <td> 태크 없이 <tr> 태크에 바로 텍스트를 넣으면 에러남.
+            ) :
+            // <tr>No Data to show</tr>  -- <td> 태크 없이 <tr> 태크에 바로 텍스트를 넣으면 경고(에러)
+            // <tr><td>No Data to show</td></tr> -- <table> <tbody>등 테이블 형식으로 되어 있지 않을 경우 경고(에러)
+            (<table><tbody><tr><td>No Data to show</td></tr></tbody></table>) 
         }
       </Row>
     </Container>

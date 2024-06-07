@@ -37,7 +37,6 @@ const AdminProduct = () => {
 
   //상품리스트 가져오기 (url쿼리 맞춰서)
   useEffect(()=> {
-    console.log("query", query);
     dispatch(productActions.getProductList({...searchQuery}));
   },[query])
 
@@ -54,11 +53,19 @@ const AdminProduct = () => {
 
   const deleteItem = (id) => {
     //아이템 삭제하가ㅣ
+    if(window.confirm("정말로 상품을 삭제하시겠습니까?"))
+    {
+      dispatch(productActions.deleteProduct(id));
+    }
+    else console.log("상품 삭제 취소.");
   };
 
   const openEditForm = (product) => {
     //edit모드로 설정하고
+    setMode("edit");
     // 아이템 수정다이얼로그 열어주기
+    dispatch({type: types.SET_SELECTED_PRODUCT, payload: product});
+    setShowDialog(true);
   };
 
   const handleClickNewItem = () => {

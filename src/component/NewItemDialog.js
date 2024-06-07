@@ -57,6 +57,8 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog, setQuery }) => {
       setShowDialog(false);
     } else {
       // 상품 수정하기
+      dispatch(productActions.editProduct({...formData, stock: totalStock}, selectedProduct._id));
+      setShowDialog(false);
     }
   };
 
@@ -116,9 +118,17 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog, setQuery }) => {
   useEffect(() => {
     if (showDialog) {
       if (mode === "edit") {
-        // 선택된 데이터값 불러오기 (재고 형태 객체에서 어레이로 바꾸기)
+        // 선택된 데이터값 불러오기 (재고 형태 객체에서 어레이로 바꾸기) back은 stock을 {s:3, m:5} 형태로 가지고 있는데 이것을 [[s,3],[m,5]]으로 바꿔야함.
+        console.log(selectedProduct);
+        setFormData(selectedProduct);
+        //Object.keys(selectedProduct.stock) == [s, m]; ( 객체에서 키 값만 뽑아 배열로 만드는 함수.);
+        //.map을 이용해 [s, m]을 [[s, 3], [m, 5]]으로 변경.
+        const stockArray = Object.keys(selectedProduct.stock).map((size) => [size, selectedProduct.stock[size]]);
+        setStock(stockArray);
       } else {
         // 초기화된 값 불러오기
+        setFormData({...InitialFormData});
+        setStock([]);
       }
     }
   }, [showDialog]);

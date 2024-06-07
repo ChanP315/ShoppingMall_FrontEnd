@@ -10,6 +10,8 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import { commonUiActions } from "../action/commonUiAction";
 import ProductTable from "../component/ProductTable";
 
+import '../style/paginate.style.css'
+
 const AdminProduct = () => {
   const navigate = useNavigate();
   const {productList, totalPageNum} = useSelector((state)=> state.product);

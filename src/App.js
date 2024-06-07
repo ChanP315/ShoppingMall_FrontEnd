@@ -4,6 +4,7 @@ import "./App.css";
 import { useDispatch, useSelector } from "react-redux";
 import { userActions } from "./action/userAction";
 import "./style/common.style.css";
+// import 'react-paginate/dist/react-paginate.css';
 import AppLayout from "./Layout/AppLayout";
 import AppRouter from "./routes/AppRouter";
 

@@ -6,7 +6,7 @@
 
 
 react-toastify : ToastMessage - 회원가입할떄 사용함.
-react-paginate : page 관리 
+react-paginate : page 관리 , 디자인도 따로 완료
 https://cloudinary.com/ : 이미지 및 비디오 업로드를 도와주는 사이트.
     git log 475f742 는 상관 없었음, 배포 할때 환경 변수 설정 안해줘서 그랬던거 뿐.
         + 배포시 cloudinary error: index.html 에 cloudinary 관련 코드 추가

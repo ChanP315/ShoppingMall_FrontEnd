@@ -1,21 +1,25 @@
 import api from "../utils/api";
-import * as types from "../constants/user.constants";
+import * as userTypes from "../constants/user.constants";
+import * as cartTypes from "../constants/cart.constants";
 import { commonUiActions } from "./commonUiAction";
 import * as commonTypes from "../constants/commonUI.constants";
+import { cartActions } from "./cartAction";
+
 const loginWithToken = () => async (dispatch) => {
   try
   {
-    dispatch({type: types.LOGIN_WITH_TOKEN_REQUEST});
+    dispatch({type: userTypes.LOGIN_WITH_TOKEN_REQUEST});
     
     const response = await api.get('/user/info');
     if(response.status !== 200)
       throw new Error(response.error);
 
     // console.log("Login response", response);
-    dispatch({type: types.LOGIN_WITH_TOKEN_SUCCESS, payload: response.data});
+    dispatch({type: userTypes.LOGIN_WITH_TOKEN_SUCCESS, payload: response.data});
+    dispatch(cartActions.getCartQty());
   }catch(err)
   {
-    dispatch({type: types.LOGIN_WITH_TOKEN_FAIL, payload: err.message});
+    dispatch({type: userTypes.LOGIN_WITH_TOKEN_FAIL, payload: err.message});
     dispatch(logout());
   }
 };
@@ -23,23 +27,23 @@ const loginWithToken = () => async (dispatch) => {
 const loginWithEmail = ({email, password}) => async (dispatch) => {
   try
   {
-    dispatch({type: types.LOGIN_REQUEST});
+    dispatch({type: userTypes.LOGIN_REQUEST});
 
     const response = await api.post("/auth/login", {email, password});
     if(response.status !== 200)
         throw new Error(response.error);
 
     sessionStorage.setItem("token", response.data.token);
-    console.log(response.data);
-    dispatch({type: types.LOGIN_SUCCESS, payload: response.data});
+    dispatch({type: userTypes.LOGIN_SUCCESS, payload: response.data});
   }catch(err)
   {
-    dispatch({type: types.LOGIN_FAIL, payload: err.error});
+    dispatch({type: userTypes.LOGIN_FAIL, payload: err.error});
   }
 };
 const logout = () => async (dispatch) => {
   // user 정보를 지우고
-  dispatch({type: types.LOGOUT});
+  dispatch({type: userTypes.LOGOUT});
+  dispatch({type: cartTypes.CART_INFO_INIT});
 
   //sesstion token을 지운다.
   sessionStorage.removeItem("token"); // sessionStorage.clear();
@@ -53,14 +57,14 @@ const registerUser =
 async (dispatch) => {
   try
   {
-    dispatch({type:types.REGISTER_USER_REQUEST});
+    dispatch({type: userTypes.REGISTER_USER_REQUEST});
 
     const response = await api.post("/user", {email: formData.email, name: formData.name, password: formData.password}); 
     if(response.status !== 200)
       throw new Error(response.error);
 
     console.log(response.data);
-    dispatch({type: types.REGISTER_USER_SUCCESS});
+    dispatch({type: userTypes.REGISTER_USER_SUCCESS});
     dispatch(commonUiActions.showToastMessage("회원가입을 완료 했습니다!", "success"));
     navigate("/login");
 
@@ -68,7 +72,7 @@ async (dispatch) => {
   {
     console.log(err);
     dispatch(commonUiActions.showToastMessage("이미 가입 되어 있는 회원 이메일입니다.", "error"));
-    dispatch({type: types.REGISTER_USER_FAIL, payload: err.error});
+    dispatch({type: userTypes.REGISTER_USER_FAIL, payload: err.error});
   }
 };
 

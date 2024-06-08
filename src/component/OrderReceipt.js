@@ -3,29 +3,49 @@ import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router";
 import { useLocation } from "react-router-dom";
 import { currencyFormat } from "../utils/number";
+import { useSelector } from "react-redux";
 
-const OrderReceipt = () => {
+const OrderReceipt = ({cartList}) => {
   const location = useLocation();
   const navigate = useNavigate();
+  // const {totalPrice} = useSelector((state)=>state.cart);
+
+  let totalPrice = 0;
+  if(cartList)
+  {
+    cartList.forEach(element => {
+      totalPrice += element.productId.price;
+    });
+
+    console.log(totalPrice);
+  }
 
   return (
     <div className="receipt-container">
       <h3 className="receipt-title">주문 내역</h3>
       <ul className="receipt-list">
-        <li>
-          <div className="display-flex space-between">
-            <div>아이템이름</div>
-
-            <div>₩ 45,000</div>
-          </div>
-        </li>
+      {
+        cartList.length > 0 ?
+        cartList.map((item, index)=> {
+          return (
+            <li key={index}>
+              <div className="display-flex space-between">
+                <div>{item.productId.name}</div>
+                <div>₩ {item.productId.price}</div>
+              </div>
+            </li>
+          )
+        })
+        :
+        <li><div className="display-flex space-between"><div>주문 내역 없음</div></div></li>
+      }
       </ul>
       <div className="display-flex space-between receipt-title">
         <div>
           <strong>Total:</strong>
         </div>
         <div>
-          <strong>₩ 최종가격</strong>
+          <strong>₩ {totalPrice}</strong>
         </div>
       </div>
       {location.pathname.includes("/cart") && (

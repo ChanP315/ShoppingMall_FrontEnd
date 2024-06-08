@@ -12,6 +12,7 @@ import "../style/productDetail.style.css";
 const ProductDetail = () => {
   const dispatch = useDispatch();
   const product = useSelector((state)=> state.product.productDetail);
+  const {user} = useSelector((state) => state.user);
 
   const [size, setSize] = useState("");
   const { id } = useParams();
@@ -21,11 +22,21 @@ const ProductDetail = () => {
 
   const addItemToCart = () => {
     //사이즈를 아직 선택안했다면 에러
+    if(!size || size === "")
+      return setSizeError(true);
+
     // 아직 로그인을 안한유저라면 로그인페이지로
+    if(!user)
+      return navigate("/login");
+
     // 카트에 아이템 추가하기
+    dispatch(cartActions.addToCart({id, size}));
   };
   const selectSize = (value) => {
     // 사이즈 추가하기
+    setSize(value);
+    if(sizeError)
+      setSizeError(false);
   };
 
   //카트에러가 있으면 에러메세지 보여주기
@@ -69,7 +80,7 @@ const ProductDetail = () => {
 
             <Dropdown.Menu className="size-drop-down">
               {product ? Object.keys(product.stock).map((itemSize, index)=> (
-                <Dropdown.Item key={index} disabled={product.stock[itemSize] <= 0 ? true : false}>{itemSize.toUpperCase()} : {product.stock[itemSize]}</Dropdown.Item>
+                <Dropdown.Item key={index} eventKey={itemSize.toUpperCase()} disabled={product.stock[itemSize] <= 0 ? true : false}>{itemSize.toUpperCase()} : {product.stock[itemSize]}</Dropdown.Item>
               )) : <Dropdown.Item>사이즈 없음.</Dropdown.Item> 
               }
               {/* */}

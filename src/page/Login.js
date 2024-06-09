@@ -27,6 +27,7 @@ const Login = () => {
   if (user) {
     navigate("/");
   }
+  
   return (
     <>
       <Container className="login-area">

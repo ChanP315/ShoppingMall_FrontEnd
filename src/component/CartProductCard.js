@@ -11,12 +11,16 @@ const CartProductCard = ({ item }) => {
 
   const [qty, setQty] = useState(1);
 
-  const handleQtyChange = () => {
+  const handleQtyChange = (productQty) => {
     //아이템 수량을 수정한다
+    setQty(productQty);
+    console.log(item._id, productQty);
+    dispatch(cartActions.updateQty(item._id, productQty));
   };
 
   const deleteCart = (id) => {
     //아이템을 지운다
+    dispatch(cartActions.deleteCartItem(id));
   };
 
   return (
@@ -35,22 +39,22 @@ const CartProductCard = ({ item }) => {
               <FontAwesomeIcon
                 icon={faTrash}
                 width={24}
-                onClick={() => deleteCart("hard_code")}
+                onClick={() => deleteCart(item._id)}
               />
             </button>
           </div>
 
           <div>
-            <strong>₩ {item.productId.price}</strong>
+            <strong>₩ {currencyFormat(item.productId.price)}</strong>
           </div>
           <div>Size: {item.size}</div>
-          <div>Total: ₩ {item.productId.price}</div>
+          <div>Total: ₩ {currencyFormat(item.productId.price * qty)}</div>
           <div>
             Quantity:
             <Form.Select
-              onChange={(event) => handleQtyChange()}
+              onChange={(event) => handleQtyChange(event.target.value)}
               required
-              defaultValue={1}
+              defaultValue={item.qty}
               className="qty-dropdown"
             >
               <option value={1}>1</option>

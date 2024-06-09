@@ -35,6 +35,7 @@ const loginWithEmail = ({email, password}) => async (dispatch) => {
 
     sessionStorage.setItem("token", response.data.token);
     dispatch({type: userTypes.LOGIN_SUCCESS, payload: response.data});
+    dispatch(cartActions.getCartQty());
   }catch(err)
   {
     dispatch({type: userTypes.LOGIN_FAIL, payload: err.error});

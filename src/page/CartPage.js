@@ -12,7 +12,7 @@ const CartPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate()
   const {user} = useSelector((state)=>state.user);
-  const {cartList} = useSelector((state)=> state.cart);
+  const {cartList, totalPrice} = useSelector((state)=> state.cart);
 
   useEffect(() => {
     //카트리스트 불러오기
@@ -41,7 +41,7 @@ const CartPage = () => {
           }
         </Col>
         <Col xs={12} md={5}>
-          <OrderReceipt cartList={cartList}/>
+          <OrderReceipt cartList={cartList} totalPrice={totalPrice}/>
         </Col>
       </Row>
     </Container>

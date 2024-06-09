@@ -21,25 +21,31 @@ function cartReducer(state = initialState, action) {
     case types.ADD_TO_CART_REQUEST:
     case types.GET_CART_LIST_REQUEST:
     case types.GET_CART_QTY_REQUEST:
+    case types.DELETE_CART_ITEM_REQUEST:
+    case types.UPDATE_CART_ITEM_REQUEST:
       return {...state, loading: true};
 
     case types.ADD_TO_CART_SUCCESS:
     case types.GET_CART_QTY_SUCCESS:
-      console.log(payload);
       return {...state, loading: false, error: "", cartItemQty: payload};
     
     case types.GET_CART_LIST_SUCCESS:
+    case types.DELETE_CART_ITEM_SUCCESS:
+    case types.UPDATE_CART_ITEM_SUCCESS:
       return {...state,
         loading: false,
         error: "",
         cartList: payload.cart.items,
         cartItemQty: payload.cartItemQty,
-        totalPrice: payload.cart.items.reduce((total = 0, item) => (total += item.productId.price * item.qty)),
+        //reduce 함수 뒤쪽에 accTotal을 0초기화 해주지 않으면, 오브젝트가 연산되어버림
+        totalPrice: payload.cart.items.reduce((accTotal, currentItem) => accTotal += (currentItem.productId.price * currentItem.qty), 0),
       };
     
     case types.ADD_TO_CART_FAIL:
     case types.GET_CART_LIST_FAIL:
     case types.GET_CART_QTY_FAIL:
+    case types.DELETE_CART_ITEM_FAIL:
+    case types.UPDATE_CART_ITEM_FAIL:
       return {...state, loading: false, error: payload};
     
     case types.CART_INFO_INIT:

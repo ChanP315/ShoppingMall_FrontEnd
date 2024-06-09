@@ -5,20 +5,9 @@ import { useLocation } from "react-router-dom";
 import { currencyFormat } from "../utils/number";
 import { useSelector } from "react-redux";
 
-const OrderReceipt = ({cartList}) => {
+const OrderReceipt = ({cartList, totalPrice}) => {
   const location = useLocation();
   const navigate = useNavigate();
-  // const {totalPrice} = useSelector((state)=>state.cart);
-
-  let totalPrice = 0;
-  if(cartList)
-  {
-    cartList.forEach(element => {
-      totalPrice += element.productId.price;
-    });
-
-    console.log(totalPrice);
-  }
 
   return (
     <div className="receipt-container">
@@ -31,7 +20,7 @@ const OrderReceipt = ({cartList}) => {
             <li key={index}>
               <div className="display-flex space-between">
                 <div>{item.productId.name}</div>
-                <div>₩ {item.productId.price}</div>
+                <div>₩ {currencyFormat(item.productId.price * item.qty)}</div>
               </div>
             </li>
           )
@@ -45,7 +34,7 @@ const OrderReceipt = ({cartList}) => {
           <strong>Total:</strong>
         </div>
         <div>
-          <strong>₩ {totalPrice}</strong>
+          <strong>₩ {currencyFormat(totalPrice)}</strong>
         </div>
       </div>
       {location.pathname.includes("/cart") && (

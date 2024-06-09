@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
 import {
@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { userActions } from "../action/userAction";
+import { cartActions } from "../action/cartAction";
 
 const Navbar = ({ user }) => {
   const dispatch = useDispatch();
@@ -48,6 +49,11 @@ const Navbar = ({ user }) => {
       return navigate('/login');
     navigate("/cart");
   }
+
+  // useEffect(()=>{
+  //   if(user)
+  //     dispatch(cartActions.getCartQty());
+  // },[])
 
   return (
     <div>

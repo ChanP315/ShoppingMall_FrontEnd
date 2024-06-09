@@ -47,7 +47,7 @@ const CartProductCard = ({ item }) => {
           <div>
             <strong>₩ {currencyFormat(item.productId.price)}</strong>
           </div>
-          <div>Size: {item.size}</div>
+          <div>Size: {item.size.toUpperCase()}</div>
           <div>Total: ₩ {currencyFormat(item.productId.price * qty)}</div>
           <div>
             Quantity:

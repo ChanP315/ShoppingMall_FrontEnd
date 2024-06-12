@@ -77,7 +77,6 @@ const getCartQty = () => async (dispatch) => {
     dispatch({type: types.GET_CART_QTY_REQUEST});
 
     const response = await api.get("/cart/qty");
-    console.log(response);
     if(response.status !== 200)
       throw new Error(response.error);
 

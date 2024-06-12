@@ -23,6 +23,7 @@ const OrderDetailDialog = ({ open, handleClose }) => {
   if (!selectedOrder) {
     return <></>;
   }
+
   return (
     <Modal show={open} onHide={handleClose}>
       <Modal.Header closeButton>

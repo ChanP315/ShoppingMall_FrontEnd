@@ -3,20 +3,21 @@ import { Table, Badge } from "react-bootstrap";
 import { badgeBg } from "../constants/order.constants";
 import { currencyFormat } from "../utils/number";
 const OrderTable = ({ header, data, openEditForm }) => {
+  console.log(data);
   return (
     <div className="overflow-x">
       <Table striped bordered hover>
         <thead>
           <tr>
-            {header.map((title) => (
-              <th>{title}</th>
+            {header.map((title, index) => (
+              <th key={index}>{title}</th>
             ))}
           </tr>
         </thead>
         <tbody>
           {data.length > 0 ? (
             data.map((item, index) => (
-              <tr onClick={() => openEditForm(item)}>
+              <tr key={index} onClick={() => openEditForm(item)}>
                 <th>{index}</th>
                 <th>{item.orderNum}</th>
                 <th>{item.createdAt.slice(0, 10)}</th>
@@ -32,14 +33,14 @@ const OrderTable = ({ header, data, openEditForm }) => {
 
                 <th>{item.shipTo.address + " " + item.shipTo.city}</th>
 
-                <th>{currencyFormat(item.totalPrice)}</th>
+                <th>₩ {currencyFormat(item.totalPrice)}</th>
                 <th>
                   <Badge bg={badgeBg[item.status]}>{item.status}</Badge>
                 </th>
               </tr>
             ))
           ) : (
-            <tr>No Data to show</tr>
+            <tr><th>No Data to show</th></tr>
           )}
         </tbody>
       </Table>

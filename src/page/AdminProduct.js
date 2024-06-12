@@ -75,7 +75,7 @@ const AdminProduct = () => {
     setShowDialog(true);
   };
 
-  const handlePageClick = ({ selected }) => {
+  const handlePageClick = ({ selected }) => { // selected : 현재 선택되어있는 페이지 인덱스
     //  쿼리에 페이지값 바꿔주기
     setSearchQuery({...searchQuery, page: selected + 1})
   };

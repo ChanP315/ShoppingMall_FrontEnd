@@ -50,7 +50,23 @@ const logout = () => async (dispatch) => {
   sessionStorage.removeItem("token"); // sessionStorage.clear();
 };
 
-const loginWithGoogle = (token) => async (dispatch) => {};
+const loginWithGoogle = (token) => async (dispatch) => {
+  try
+  {
+    dispatch({type: userTypes.GOOGLE_LOGIN_REQUEST});
+
+    const response = await api.post("/auth/google", {token});
+    if(response.status !== 200)
+      throw new Error(response.error);
+
+    sessionStorage.setItem("token", response.data.token);
+    dispatch({type: userTypes.GOOGLE_LOGIN_SUCCESS, payload: response.data});
+    dispatch(cartActions.getCartQty());
+  }catch(err)
+  {
+    dispatch({type: userTypes.GOOGLE_LOGIN_FAIL, payload: err.error});
+  }
+};
 
 const registerUser =
   // ({ email, name, password }, navigate) =>

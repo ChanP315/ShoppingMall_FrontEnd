@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
 import {
+  faLock,
   faBars,
   faBox,
   faSearch,
@@ -19,14 +20,9 @@ const Navbar = ({ user }) => {
   const isMobile = window.navigator.userAgent.indexOf("Mobile") !== -1;
   const [showSearchBox, setShowSearchBox] = useState(false);
   const menuList = [
-    "여성",
-    "Divided",
-    "남성",
-    "신생아/유아",
-    "아동",
-    "H&M HOME",
-    "Sale",
-    "지속가능성",
+    "Top",
+    "Dress",
+    "Pants",
   ];
   let [width, setWidth] = useState(0);
   let navigate = useNavigate();
@@ -49,11 +45,6 @@ const Navbar = ({ user }) => {
       return navigate('/login');
     navigate("/cart");
   }
-
-  // useEffect(()=>{
-  //   if(user)
-  //     dispatch(cartActions.getCartQty());
-  // },[])
 
   return (
     <div>
@@ -89,18 +80,25 @@ const Navbar = ({ user }) => {
           ))}
         </div>
       </div>
-      {user && user.level === "admin" && (
-        <Link to="/admin/product?page=1" className="link-area">
-          Admin page
-        </Link>
-      )}
+
       <div className="nav-header">
-        <div className="burger-menu hide">
-          <FontAwesomeIcon icon={faBars} onClick={() => setWidth(250)} />
+        <div className="burger-menu">
+          <FontAwesomeIcon icon={faBars} onClick={() => setWidth(200)} /> 분류
         </div>
 
         <div>
           <div className="display-flex">
+            {user && user.level === "admin" && (
+              <div onClick={() => navigate('/admin/product?page=1')} className="nav-icon">
+                <FontAwesomeIcon icon={faLock} />
+                {!isMobile && (
+                  <span style={{ cursor: "pointer" }}>관리자 Page</span>
+                )}
+              </div>
+            )}
+
+            |
+
             {user ? (
               <div onClick={logout} className="nav-icon">
                 <FontAwesomeIcon icon={faUser} />
@@ -114,6 +112,9 @@ const Navbar = ({ user }) => {
                 {!isMobile && <span style={{ cursor: "pointer" }}>로그인</span>}
               </div>
             )}
+
+            |
+
             <div onClick={() => shoppingBagClick()} className="nav-icon">
               <FontAwesomeIcon icon={faShoppingBag} />
               {!isMobile && (
@@ -122,6 +123,9 @@ const Navbar = ({ user }) => {
                 })`}</span>
               )}
             </div>
+
+            |
+
             <div
               onClick={() => navigate("/account/purchase")}
               className="nav-icon"
@@ -157,7 +161,6 @@ const Navbar = ({ user }) => {
             <input
               type="text"
               placeholder="제품검색"
-              // onKeyPress={onCheckEnter}
               onKeyDown={onCheckEnter}
             />
           </div>

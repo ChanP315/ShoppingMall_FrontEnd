@@ -7,7 +7,6 @@ const getProductList = (query) => async (dispatch) => {
   try
   {
     dispatch({type: types.PRODUCT_GET_REQUEST});
-
     let response;
     if(query)
       response = await api.get("/product", {params: {...query}});

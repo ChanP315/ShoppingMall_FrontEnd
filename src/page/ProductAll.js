@@ -14,7 +14,14 @@ const ProductAll = () => {
   let [query, setQuery] = useSearchParams();
   // 처음 로딩하면 상품리스트 불러오기
   useEffect(()=> {
-    dispatch(productActions.getProductList({name:query.get('name')})); // URI에  ?name={value}가  없으면 null 값 
+    const queryOBJ = {
+      category: query.get("category"),
+      name: query.get("name"),
+      priceMin: query.get("priceMin"),
+      priceMax: query.get("priceMax"),
+      soldOut: query.get("soldOut"),
+    } 
+    dispatch(productActions.getProductList(queryOBJ)); // URI에  ?name={value}가  없으면 null 값 
   }, [query])
 
   return (

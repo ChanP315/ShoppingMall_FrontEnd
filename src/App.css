@@ -21,8 +21,9 @@ body{
 .menu{
   display: flex;
   list-style-type: none;
-  padding: 20px;
+  padding: 10px;
 }
+
 .menu li a{
   text-decoration: none;
   color:black;
@@ -45,10 +46,27 @@ body{
 .landing-search-box{
   right: 20px;
   position: absolute;
-
 }
+
+.landing-search-boxOpt{
+  right: 20px;
+  position: relative;
+  margin-bottom: 20px;
+}
+
 .sidebar{
   max-width: 500px;
+}
+
+.menu-serchOpt{
+  display: flex;
+  list-style-type: none;
+  margin-bottom: 10px;
+}
+
+.menu-serchOpt-Box{
+  border: 1px solid black;
+  margin: 0px 150px 20px 150px;
 }
 
 .search-box{

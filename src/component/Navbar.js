@@ -9,8 +9,10 @@ import {
   faShoppingBag,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+
+import { SearchOption } from './SearchOption';
 import { userActions } from "../action/userAction";
 import { cartActions } from "../action/cartAction";
 
@@ -19,7 +21,9 @@ const Navbar = ({ user }) => {
   const { cartItemQty } = useSelector((state) => state.cart);
   const isMobile = window.navigator.userAgent.indexOf("Mobile") !== -1;
   const [showSearchBox, setShowSearchBox] = useState(false);
+  const [showSearchOptBox, setShowSearchOptBox] = useState(true);
   const menuList = [
+    "전체",
     "Top",
     "Dress",
     "Pants",
@@ -27,12 +31,50 @@ const Navbar = ({ user }) => {
   let [width, setWidth] = useState(0);
   let navigate = useNavigate();
 
+  const [query, setQuery] = useSearchParams();
+  const [searchQuery, setSearchQuery] = useState({
+    category: query.get("category") || "",
+    name: query.get("name") || "",
+    priceMin: query.get("priceMin") || 0,
+    priceMax: query.get("priceMax") || 0,
+    soldOut: query.get("soldOut") || false,
+  }); //검색 조건들을 저장하는 객체
+
+  const initSearchQuery = () => {
+    setSearchQuery({
+      category: query.get("category") || "",
+      name: query.get("name") || "",
+      priceMin: query.get("priceMin") || 0,
+      priceMax: query.get("priceMax") || 0,
+      soldOut: query.get("soldOut") || false,
+    })
+  };
+
+  useEffect(() => {
+    //검색어나 페이지가 바뀌면 url바꿔주기 (검색어또는 페이지가 바뀜 => url 바꿔줌=> url쿼리 읽어옴=> 이 쿼리값 맞춰서  상품리스트 가져오기)
+    if(searchQuery.category === "" || searchQuery.category === "전체")
+      delete searchQuery.category
+    if(searchQuery.name === "")
+      delete searchQuery.name
+    if(searchQuery.priceMin === 0)
+      delete searchQuery.priceMin
+    if(searchQuery.priceMax === 0)
+      delete searchQuery.priceMax
+    if(searchQuery.soldOut === false)
+      delete searchQuery.soldOut
+    
+    const params = new URLSearchParams(searchQuery);
+    const _query = params.toString();
+    navigate("?" + _query);
+  }, [searchQuery]);
+
   const onCheckEnter = (event) => {
     if (event.key === "Enter") {
-      if (event.target.value === "") {
-        return navigate("/");
-      }
-      navigate(`?name=${event.target.value}`);
+      setSearchQuery({...searchQuery, name: event.target.value});
+      // if (event.target.value === "") {
+      //   return navigate("/");
+      // }
+      // navigate(`?name=${event.target.value}`);
     }
   };
 
@@ -76,14 +118,15 @@ const Navbar = ({ user }) => {
 
         <div className="side-menu-list" id="menu-list">
           {menuList.map((menu, index) => (
-            <button key={index}>{menu}</button>
+            <button key={index} onClick={() => setSearchQuery({...searchQuery, category: menu.toLowerCase()})}>{menu}</button>
           ))}
         </div>
       </div>
 
       <div className="nav-header">
-        <div className="burger-menu">
-          <FontAwesomeIcon icon={faBars} onClick={() => setWidth(200)} /> 분류
+        <div className="burger-menu" style={{cursor: "pointer"}}onClick={() => setWidth(200)}>
+          <FontAwesomeIcon icon={faBars} />
+           {"  분류"}
         </div>
 
         <div>
@@ -147,25 +190,17 @@ const Navbar = ({ user }) => {
           <img width={100} src="/image/hm-logo.png" alt="hm-logo.png" />
         </Link>
       </div>
-      <div className="nav-menu-area">
-        <ul className="menu">
-          {menuList.map((menu, index) => (
-            <li key={index}>
-              <a href="#">{menu}</a>
-            </li>
-          ))}
-        </ul>
-        {!isMobile && ( // admin페이지에서 같은 search-box스타일을 쓰고있음 그래서 여기서 서치박스 안보이는것 처리를 해줌
-          <div className="search-box landing-search-box ">
-            <FontAwesomeIcon icon={faSearch} />
-            <input
-              type="text"
-              placeholder="제품검색"
-              onKeyDown={onCheckEnter}
-            />
-          </div>
-        )}
-      </div>
+
+      <SearchOption
+        isMobile={isMobile}
+        menuList={menuList}
+        onCheckEnter={onCheckEnter}
+        showSearchOptBox={showSearchOptBox}
+        setShowSearchOptBox={setShowSearchOptBox}
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+      />
+
     </div>
   );
 };
